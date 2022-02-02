@@ -26,18 +26,31 @@ public class AbstractReimbursement {
     private User author;
     private User resolver;
     private double amount;
+    private String date;
+    private String time;
+    private String location;
+    private String description;
+    private String justify;
+
+
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String date, String time, String location, String description, String justify ) {
         super();
         this.id = id;
         this.status = status;
         this.author = author;
         this.resolver = resolver;
         this.amount = amount;
+        this.date = date;
+        this.time = time;
+        this.location = location;
+        this.description = description;
+        this.justify = justify;
+
     }
 
     public int getId() {
@@ -78,6 +91,46 @@ public class AbstractReimbursement {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getJustify() {
+        return justify;
+    }
+
+    public void setJustify(String justify) {
+        this.justify = justify;
     }
 
     @Override
