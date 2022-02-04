@@ -10,3 +10,5 @@ function getUserName() {
     xhr.open("GET", "http://localhost:8080/ERS/login", true);
     xhr.send();
 }
+
+

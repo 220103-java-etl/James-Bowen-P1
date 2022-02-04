@@ -19,7 +19,7 @@ public class UserDAO {
      * Should retrieve a User from the DB with the corresponding username or an empty optional if there is no match.
      */
     public static User getByUsername(String username) {
-        String sql = "select * from users where username = ?";
+        String sql = "select * from employee where username = ?";
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
@@ -44,7 +44,7 @@ public class UserDAO {
 
     public static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "select * from users";
+        String sql = "select * from employee    ";
         try(Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -77,7 +77,7 @@ public class UserDAO {
      * Additional fields may be null.
      */
     public static User create(User userToBeRegistered) {
-        String sql = "insert into users (id, first_name, last_name, username, password, role) values (default, ?, ?, ?, ?, ?)";
+        String sql = "insert into employee (id, first_name, last_name, username, password, role) values (default, ?, ?, ?, ?, ?)";
         try(Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, userToBeRegistered.getFirstName());

@@ -13,8 +13,35 @@
         Current Employee Requests:
         <button type="button" id="pullRequests">Get submitted Requests</button>
     <section>
-        <!-- get all Users -->
+        <table >
+            <tr>
+                <th class="table">Name</th>
+                <th class="table">Location</th>
+                <th class="table">Status</th>
+            </tr>
+            <tr>
+                <td >James Bowen</td>
+                <td >San Antonio, TX</td>
+                <td ><select  name="status">
+                    <option value="Pending">Pending</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Approved">Approved</option>
+                </select></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th class="table">Date</th>
+                <th class="table">Time</th>
+                <th class="table">Cost</th>
+            </tr>
+            <tr>
+                <td>01/01/202</td>
+                <td>12:00 AM</td>
+                <td>$1</td>
+            </tr>
     </section>
+    <br/>
     <section>
         <input type="text" id="sendUser" placeholder="Employees Name">
         <button type="button" id="recordsPull" href="request.html">Get Forms</button>

@@ -7,26 +7,26 @@ function getAllRequests() {
             let body = document.getElementsByTagName('body')[0];
             let table = document.createElement('table');
             table.setAttribute('id', 'requestsTable');
-            let thead = document.createElement('thead');
+            let tableHead = document.createElement('tableHead');
             let tr = document.createElement('tr');
             let th = document.createElement('th');
-            th = document.createElement('th');
-            th.innerHTML = "Username";
+            th1 = document.createElement('th');
+            th1.innerHTML = "Username";
             tr.appendChild(th);
-            th = document.createElement('th');
-            th.innerHTML = "Request Description";
+            th2 = document.createElement('th');
+            th2.innerHTML = "Description";
             tr.appendChild(th);
-            th = document.createElement('th');
-            th.innerHTML = "Reimbursement Amount";
+            th3 = document.createElement('th');
+            th3.innerHTML = "Reimbursement Amount";
             tr.appendChild(th);
-            th = document.createElement('th');
-            th.innerHTML = "Request Date";
+            th4 = document.createElement('th');
+            th4.innerHTML = "Request Date";
             tr.appendChild(th);
-            th = document.createElement('th');
-            th.innerHTML = "Request Status";
+            th5 = document.createElement('th');
+            th5.innerHTML = "Request Status";
             tr.appendChild(th);
-            thead.appendChild(tr);
-            table.appendChild(thead);
+            tableHead.appendChild(tr);
+            table.appendChild(tableHead);
             let tbody = document.createElement('tbody');
             for (let i = 0; i < response.length; i++) {
                 let tr = document.createElement('tr');
@@ -36,25 +36,19 @@ function getAllRequests() {
                 td = document.createElement('td');
                 td.innerHTML = response[i].description;
                 tr.appendChild(td);
-                td = document.createElement('td');
-                td.innerHTML = response[i].amount;
-                const moneyFormat = new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                });
-                td.innerHTML = moneyFormat.format(response[i].amount);
+                td2 = document.createElement('td');
+                td2.innerHTML = response[i].amount;
                 tr.appendChild(td);
-                td = document.createElement('td');
-                td.innerHTML = response[i].date;
+                td3 = document.createElement('td');
+                td3.innerHTML = response[i].date;
                 tr.appendChild(td);
-                td = document.createElement('td');
-                td.innerHTML = response[i].status;
+                td4 = document.createElement('td');
+                td4.innerHTML = response[i].status;
                 tr.appendChild(td);
                 tbody.appendChild(tr);
 
                 let button = document.createElement('button');
                 button.setAttribute('id', "editButton" + i);
-                button.setAttribute('onclick', "editAllRequest(" + i + ")");
                 button.innerHTML = "Edit";
                 tr.appendChild(button);
             }
