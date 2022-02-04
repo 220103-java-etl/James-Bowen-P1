@@ -27,7 +27,7 @@ function getAllRequests() {
             tr.appendChild(th);
             tableHead.appendChild(tr);
             table.appendChild(tableHead);
-            let tbody = document.createElement('tbody');
+            let tbody = document.createElement('tableBody');
             for (let i = 0; i < response.length; i++) {
                 let tr = document.createElement('tr');
                 let td = document.createElement('td');
@@ -52,7 +52,7 @@ function getAllRequests() {
                 button.innerHTML = "Edit";
                 tr.appendChild(button);
             }
-            table.appendChild(tbody);
+            table.appendChild(tableBody);
             body.appendChild(table);
         }
     };

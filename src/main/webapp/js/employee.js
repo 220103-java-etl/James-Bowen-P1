@@ -7,7 +7,7 @@ function getRequests() {
             let body = document.getElementsByTagName('body')[0];
             let table = document.createElement('table');
             table.setAttribute('id', 'requestsTable');
-            let thead = document.createElement('thead');
+            let tableHead = document.createElement('tableHead');
             let tr = document.createElement('tr');
             let th = document.createElement('th');
             th.innerHTML = "Request Content";
@@ -23,19 +23,14 @@ function getRequests() {
             tr.appendChild(th);
             thead.appendChild(tr);
             table.appendChild(thead);
-            let tbody = document.createElement('tbody');
+            let tableBody = document.createElement('tableBody');
             for (let i = 0; i < response.length; i++) {
                 let tr = document.createElement('tr');
                 let td = document.createElement('td');
                 td.innerHTML = response[i].description;
                 tr.appendChild(td);
                 td = document.createElement('td');
-                td.innerHTML = response[i].amount;
-                const moneyFormat = new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                });
-                td.innerHTML = moneyFormat.format(response[i].amount);
+                td.innerHTML = response[i].amount
                 tr.appendChild(td);
                 td = document.createElement('td');
                 td.innerHTML = response[i].date;
@@ -47,11 +42,10 @@ function getRequests() {
 
                 let button = document.createElement('button');
                 button.setAttribute('id', "editButton" + i);
-                button.setAttribute('onclick', "editRequest(" + i + ")");
                 button.innerHTML = "Edit";
                 tr.appendChild(button);
             }
-            table.appendChild(tbody);
+            table.appendChild(tableBody);
             body.appendChild(table);
         }
     };
