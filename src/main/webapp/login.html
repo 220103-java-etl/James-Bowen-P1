@@ -4,38 +4,29 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <link rel="stylesheet" href="welcome.css"> -->
+        <link rel="stylesheet" href="./css/index.css">
 
         <title>Welcome to EMS!</title>
     </head>
     <body>
-        <form method="post" action="login">
+        <div id="loginBox">
+            <div class="content">
+            
+        <form id="userLogin" method="post" action="login">
+            <h1>Enter your user information:</h1>
             Email ID:<input type="text" name="email"/><br/>
             Password:<input type="text" name="password"/><br/>
-            <input type="submit" value="login"/>
-            <button id = "register" type ="register">Register</button>
+            <input type="submit" id="sub" value="Login"/><br/>
+            <a id="registerLink" href="register.html">Register New User</a>
+            
+            
+        </div>
 
             
+ 
 
-  <!-- Modal content -->
-  <div id="primaryModal" class="modal">
-  <div class="modal-content">
-    <span class="close"></span>
-    <p>Please enter your new account information.</p><br/>
-        Email: <input type="text" name="newEmail"/> <br/>
-        Password: <input type="text" name="newPassword"><br/>
-        Choose your role: <input type="radio" id="employee" name = "role" value = "employee">
-        <label for = "employee"> Employee</label> <br/>
-        <input type = "radio" id="manager" name = "role" value ="manager">
-        <label for="manager"> Manager</label>
-        <input type="submit" value="createUser">
-        
-
-  </div>
-
-</div>  
-        </form>
     </body>
-    <script src="modal.js"></script>
-    <script src="welcome.css"></script>
+
+    <script src="js/login.js"></script>
+
 </html>

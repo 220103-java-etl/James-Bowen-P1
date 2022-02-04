@@ -45,7 +45,7 @@ public class AuthService {
      * Note: userToBeRegistered will have an id=0, additional fields may be null.
      * After registration, the id will be a positive integer.
      */
-    public User register(User userToBeRegistered) {
+    public static User register(User userToBeRegistered) {
         return null;
     }
 

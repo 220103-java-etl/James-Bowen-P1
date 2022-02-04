@@ -14,9 +14,11 @@ package com.revature.models;
  * </ul>
  *
  */
+
+
 public class User extends AbstractUser {
 
-    public User() {
+    public User(int i, String firstName, String lastName, String username, String password, String role) {
         super();
     }
 
@@ -24,7 +26,7 @@ public class User extends AbstractUser {
      * This includes the minimum parameters needed for the {@link com.revature.models.AbstractUser} class.
      * If other fields are needed, please create additional constructors.
      */
-    public User(int id, String username, String password, Role role) {
-        super(id, username, password, role);
+
+    public User() {
     }
 }

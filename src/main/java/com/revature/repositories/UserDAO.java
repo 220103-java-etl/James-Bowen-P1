@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserDAO {
 
-    static ConnectionUtil cu = ConnectionUtil.getInstance();
+    static ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
     /**
      * Should retrieve a User from the DB with the corresponding username or an empty optional if there is no match.
      */
