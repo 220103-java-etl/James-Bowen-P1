@@ -62,28 +62,6 @@ public class ReimbursementDAO {
      *     <li>Should return a Reimbursement object with updated information.</li>
      * </ul>
      */
-    public Reimbursement update(Reimbursement unprocessedReimbursement) {
-        String sql = "insert into reimbursement_requests (id, status, author, resolver, cost, date, time, location, description, justify) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = cu.getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, unprocessedReimbursement.getStatus().toString());
-            ps.setString(2, unprocessedReimbursement.getAuthor().getUsername());
-            ps.setString(3, unprocessedReimbursement.getResolver().getUsername());
-            ps.setDouble(4, unprocessedReimbursement.getAmount());
-            ps.setString(5, unprocessedReimbursement.getDate());
-            ps.setString(6, unprocessedReimbursement.getTime());
-            ps.setString(7, unprocessedReimbursement.getLocation());
-            ps.setString(8, unprocessedReimbursement.getDescription());
-            ps.setString(9, unprocessedReimbursement.getJustify());
-
-
-            ps.executeUpdate();
-            return unprocessedReimbursement;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return unprocessedReimbursement;
-    }
 
     public static void updateAllowance(Reimbursement newAllowance) {
 
@@ -121,37 +99,48 @@ public class ReimbursementDAO {
         return 0;
     }
 
-    public static Reimbursement createReimbursement(Reimbursement unprocessedReimbursement) {
-        String sql = "insert into reimbursement_requests (id, status, author, resolver, cost, date, time, location, description, justify) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static Reimbursement createReimbursement(Reimbursement reimbursement) {
+        String sql = "insert into reimbursement values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning *";
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, unprocessedReimbursement.getStatus().toString());
-            ps.setString(2, unprocessedReimbursement.getAuthor().getUsername());
-            ps.setString(3, unprocessedReimbursement.getResolver().getUsername());
-            ps.setDouble(4, unprocessedReimbursement.getAmount());
-            ps.setString(5, unprocessedReimbursement.getDate());
-            ps.setString(6, unprocessedReimbursement.getTime());
-            ps.setString(7, unprocessedReimbursement.getLocation());
-            ps.setString(8, unprocessedReimbursement.getDescription());
-            ps.setString(9, unprocessedReimbursement.getJustify());
-
-            ps.executeUpdate();
-            return unprocessedReimbursement;
+            ps.setInt(1, reimbursement.getId());
+            ps.setDouble(2, reimbursement.getAmount());
+            ps.setString(3, reimbursement.getDate());
+            ps.setString(4, reimbursement.getTime());
+            ps.setString(5, reimbursement.getLocation());
+            ps.setString(6, reimbursement.getDescription());
+            ps.setString(7, reimbursement.getJustify());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                Reimbursement r = new Reimbursement(
+                        rs.getInt("id"),
+                        rs.getString("status"),
+                        rs.getString("author"),
+                        rs.getString("resolver"),
+                        rs.getDouble("amount"),
+                        rs.getString("date"),
+                        rs.getString("time"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("justify")
+                );
+                return r;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return unprocessedReimbursement;
+        return null;
     }
 
     public static List<Reimbursement> getAll() {
         List<Reimbursement> reimbursements = new ArrayList<>();
-        String sql = "select * from reimbursement_requests";
+        String sql = "select * from reimbursement";
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Reimbursement r = new Reimbursement(
-                        rs.getInt("r_id"),
+                        rs.getInt("id"),
                         Status.valueOf(rs.getString("status")),
                         UserDAO.getByUsername(rs.getString("author")),
                         UserDAO.getByUsername(rs.getString("resolver")),
@@ -175,7 +164,7 @@ public class ReimbursementDAO {
 
     public static List<Reimbursement> getByUser(String author) {
         List<Reimbursement> reimbursements = new ArrayList<>();
-        String sql = "select * from reimbursement_requests where author = ?";
+        String sql = "select * from reimbursement where author = ?";
         try(Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, author);
@@ -201,4 +190,28 @@ public class ReimbursementDAO {
         }
         return Collections.emptyList();
     }
+
+    public void update(Reimbursement reimbursement) {
+        String sql = "update reimbursement set status = ? where id = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,reimbursement.getStatus());
+            ps.setInt(2,reimbursement.getId());
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Integer id) {
+        String sql = "delete from reimbursement where id = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,id);
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 }

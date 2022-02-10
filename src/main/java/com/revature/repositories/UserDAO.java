@@ -15,6 +15,7 @@ import java.util.List;
 public class UserDAO {
 
     static ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
+
     /**
      * Should retrieve a User from the DB with the corresponding username or an empty optional if there is no match.
      */
@@ -27,10 +28,11 @@ public class UserDAO {
             if (rs.next()) {
                 User u = new User(
                         rs.getInt("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
                         rs.getString("username"),
-                        rs.getString("passwrd"),
+                        rs.getString("password"),
+                        rs.getString("email"),
                         rs.getString("role")
                 );
                 return u;
@@ -45,22 +47,23 @@ public class UserDAO {
     public static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "select * from employee    ";
-        try(Connection conn = cu.getConnection()) {
+        try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 User u = new User(
                         rs.getInt("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
                         rs.getString("username"),
                         rs.getString("password"),
+                        rs.getString("email"),
                         rs.getString("role")
                 );
                 users.add(u);
             }
             return users;
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -72,24 +75,64 @@ public class UserDAO {
      *     <li>Should throw an exception if the creation is unsuccessful.</li>
      *     <li>Should return a User object with an updated ID.</li>
      * </ul>
-     *
+     * <p>
      * Note: The userToBeRegistered will have an id=0, and username and password will not be null.
      * Additional fields may be null.
      */
-    public static User create(User userToBeRegistered) {
-        String sql = "insert into employee (id, first_name, last_name, username, password, role) values (default, ?, ?, ?, ?, ?)";
-        try(Connection conn = cu.getConnection()) {
+    public static User add(User user) {
+        String sql = "insert into employee values (default, ?, ?, ?, ?, ?) returning *";
+        try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, userToBeRegistered.getFirstName());
-            ps.setString(2, userToBeRegistered.getLastName());
-            ps.setString(3, userToBeRegistered.getUsername());
-            ps.setString(4, userToBeRegistered.getPassword());
-            ps.setString(5, userToBeRegistered.getRole());
-            ps.executeUpdate();
-            return userToBeRegistered;
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getUsername());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getEmail());
+            ps.setString(6, user.getRole());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User u = new User(
+                        rs.getInt("id"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("email")
+                );
+                return u;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return userToBeRegistered;
+        return null;
+    }
+
+    public void update(User user) {
+        String sql = "update users set first_name = ?, last_name = ?, username = ?, pass = ?, email = ?, funds = ? where id = ?";
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getUsername());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getEmail());
+            ps.setInt(7, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void delete(Integer id) {
+        String sql = "delete from users where id = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,id);
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

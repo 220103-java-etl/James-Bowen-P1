@@ -22,13 +22,14 @@ public class RegisterUserServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String email = request.getParameter("email");
         String role = request.getParameter("role");
 
         // Add user to database
         User user = UserDAO.getByUsername(username);
         if(user == null) {
             try {
-                User newUser = new User(0, firstName, lastName, username, password, role);
+                User newUser = new User(0, firstName, lastName, username, password, email, role);
                 AuthService.register(newUser);
             } catch (Exception e) {
                 System.out.println("User creation unsuccessful");

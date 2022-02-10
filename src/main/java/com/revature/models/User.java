@@ -18,7 +18,7 @@ package com.revature.models;
 
 public class User extends AbstractUser {
 
-    public User(int i, String firstName, String lastName, String username, String password, String role) {
+    public User(int i, String firstName, String lastName, String username, String password,String email, String role) {
         super();
     }
 
