@@ -22,7 +22,7 @@ import java.util.Objects;
 public class AbstractReimbursement {
 
     private int id;
-    private Status status;
+    private String status;
     private User author;
     private User resolver;
     private double amount;
@@ -38,7 +38,7 @@ public class AbstractReimbursement {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount, String date, String time, String location, String description, String justify ) {
+    public AbstractReimbursement(int id, String status, User author, User resolver, double amount, String date, String time, String location, String description, String justify ) {
         super();
         this.id = id;
         this.status = status;
